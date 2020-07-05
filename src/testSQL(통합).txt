@@ -1,0 +1,98 @@
+-- 테이블 생성
+CREATE TABLE booklist(
+bno NUMBER(5) PRIMARY KEY,
+title VARCHAR2(100) NOT NULL,
+author VARCHAR2(100) NOT NULL,
+loc VARCHAR2(10) NOT NULL,
+con VARCHAR2(10) DEFAULT 'in' CONSTRAINT chk_con CHECK(con in('in','out'))
+);
+
+CREATE TABLE member(
+mno NUMBER(5) NOT NULL UNIQUE,
+mname VARCHAR2(100) NOT NULL,
+phone VARCHAR2(100) NOT NULL,
+addr VARCHAR2(100) NOT NULL,
+constraint chk_pk primary key(mname,phone)
+);
+
+CREATE TABLE hirelist(
+bno NUMBER(5) CONSTRAINT bno_fk REFERENCES booklist(bno),
+mno NUMBER(5) CONSTRAINT mno_fk REFERENCES member(mno),
+outdate date default sysdate NOT NULL,
+indate date default sysdate+7 NOT NULL,
+constraint chk_pk primary key(bno)
+);
+
+-- 도서번호 시퀀스 + 테스트 데이터
+CREATE SEQUENCE seq_bno
+INCREMENT BY 1
+START WITH 1
+NOCACHE;
+
+INSERT INTO booklist
+VALUES(seq_bno.NEXTVAL, '스티커 아트북 : 고양이', '김은덕', 'D', 'in');
+INSERT INTO booklist 
+VALUES(seq_bno.NEXTVAL, '지적 대화를 위한 넓고 얕은 지식 : 제로 편', '채사장', 'A', 'in');
+INSERT INTO booklist
+VALUES(seq_bno.NEXTVAL, '내가 원하는 것을 나도 모를 때', '전승환', 'A', 'in');
+INSERT INTO booklist
+VALUES(seq_bno.NEXTVAL, '당신이 옳다', '정혜신', 'A', 'in');
+INSERT INTO booklist
+VALUES(seq_bno.NEXTVAL, '혼자 살아도 괜찮아', '엘리야킴 키슬레브', 'A', 'in');
+INSERT INTO booklist
+VALUES(seq_bno.NEXTVAL, '말의 품격', '이기주', 'A', 'in');
+INSERT INTO booklist
+VALUES(seq_bno.NEXTVAL, '근사한 솥밥', '김연아', 'B', 'in');
+INSERT INTO booklist
+VALUES(seq_bno.NEXTVAL, '와인 폴리(매그넘 에디션)', 'Madeline Puckette', 'B', 'in');
+INSERT INTO booklist
+VALUES(seq_bno.NEXTVAL, '스퀘어 케이크', '김지은', 'B', 'in');
+INSERT INTO booklist
+VALUES(seq_bno.NEXTVAL, '문스타테이블 핑거 푸드', '문희정', 'B', 'in');
+INSERT INTO booklist
+VALUES(seq_bno.NEXTVAL, '미스터비니, 과자의 기본을 다루다', '김재호', 'B', 'in');
+INSERT INTO booklist
+VALUES(seq_bno.NEXTVAL, '여행 말고 한달 살기', '김은덕', 'C', 'in');
+INSERT INTO booklist
+VALUES(seq_bno.NEXTVAL, '론다(Ronda) in 스페인', '박영진', 'C', 'in');
+INSERT INTO booklist
+VALUES(seq_bno.NEXTVAL, '낯선 일상을 찾아, 틈만 나면 걸었다', '슛뚜', 'C', 'in');
+INSERT INTO booklist
+VALUES(seq_bno.NEXTVAL, '혼자, 천천히, 북유럽', '김현길(리모)', 'C', 'in');
+INSERT INTO booklist
+VALUES(seq_bno.NEXTVAL, '리얼 다낭 : 호이한 후에(2019-2020년)', '배나영', 'C', 'in');
+INSERT INTO booklist
+VALUES(seq_bno.NEXTVAL, '내 강아지 마음 상담소', '강형욱', 'D', 'in');
+INSERT INTO booklist
+VALUES(seq_bno.NEXTVAL, '고양이 언어학', '수잔네 쇠츠', 'D', 'in');
+INSERT INTO booklist
+VALUES(seq_bno.NEXTVAL, '로빈의 손뜨개 인형', '정혜정', 'D', 'in');
+INSERT INTO booklist
+VALUES(seq_bno.NEXTVAL, '이세돌 바둑 첫걸음(가장 쉬운 독학)', '이세돌', 'D', 'in');
+
+
+-- 회원 번호 시퀀스 + 테스트 데이터
+CREATE SEQUENCE seq_mno
+INCREMENT BY 1
+START WITH 1
+NOCACHE;
+
+INSERT INTO member
+VALUES(seq_mno.NEXTVAL, '강태풍', '010-2222-3333', '서울시 영등포구');
+INSERT INTO member
+VALUES(seq_mno.NEXTVAL, '김갑환', '010-4839-9584', '서울시 마포구');
+INSERT INTO member
+VALUES(seq_mno.NEXTVAL, '최번개', '010-5858-2332', '서울시 용산구');
+INSERT INTO member
+VALUES(seq_mno.NEXTVAL, '장거한', '010-1123-1568', '서울시 관악구');
+INSERT INTO member
+VALUES(seq_mno.NEXTVAL, '백두산', '010-1111-2222', '서울시 동작구');
+
+
+-- 뷰 생성
+CREATE VIEW v_hirelist 
+AS
+    SELECT mname, phone, title, author, outdate, indate, booklist.bno
+    FROM hirelist, member, booklist
+    WHERE hirelist.mno = member.mno and hirelist.bno = booklist.bno
+WITH READ ONLY;
