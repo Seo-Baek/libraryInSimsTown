@@ -2,15 +2,10 @@
 <h4>1차 프로젝트 결과물<h4>
 <h4>개발 기간 : 20년 1월 28일 ~ 20년 2월 11일</h4>
 
-<img width=550 src="https://user-images.githubusercontent.com/57349788/86526169-498f7b80-becb-11ea-896f-934e126f3ca5.PNG" alt ="cover"/>  1
+<img  src="https://user-images.githubusercontent.com/57349788/86526169-498f7b80-becb-11ea-896f-934e126f3ca5.PNG" alt ="cover"/> 
 <br /><br />
 
-<img width=550 src="https://user-images.githubusercontent.com/57349788/86526594-ff10fd80-bed0-11ea-8e0e-e2be13990ab5.PNG" alt="about" />  2
-
-
-
-
-![2]()
+<img src="https://user-images.githubusercontent.com/57349788/86526594-ff10fd80-bed0-11ea-8e0e-e2be13990ab5.PNG" alt="about" /> 
 
 ![1](https://user-images.githubusercontent.com/57349788/86526595-033d1b00-bed1-11ea-96d2-33e3c64c0ddd.png)
 
